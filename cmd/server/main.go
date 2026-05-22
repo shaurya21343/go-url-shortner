@@ -30,6 +30,7 @@ func main() {
 		fmt.Fprintf(w, "hello world")
 	})
 	router.HandleFunc("POST /api/createShortUrl", httphandelers.CreateShortUrl)
+	router.HandleFunc("GET /{id}", httphandelers.ShortUrl)
 
 	done := make(chan os.Signal, 1)
 

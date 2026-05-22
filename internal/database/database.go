@@ -56,3 +56,17 @@ func CreateShortUrl(url string) (int64, error) {
 	}
 	return id, nil
 }
+
+func GetRealUrl(id int64) (string, error) {
+	var originalURL string
+
+	err := DB.QueryRow("SELECT url FROM urls WHERE id = ?", id).Scan(&originalURL)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return "", fmt.Errorf("URL not found for ID: %d", id)
+		}
+		return "", fmt.Errorf("database query error: %w", err)
+	}
+
+	return originalURL, nil
+}
